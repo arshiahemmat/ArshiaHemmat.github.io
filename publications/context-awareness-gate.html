@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Context Awareness Gate for Retrieval‑Augmented Generation – Arshia Hemmat</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  </head>
+  <body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-200 font-sans">
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <a href="../index.html" class="text-2xl font-bold">Arshia Hemmat</a>
+        <nav class="hidden md:flex space-x-6 items-center">
+          <a href="../index.html#publications" class="hover:text-blue-500">Publications</a>
+          <a href="../cv/ArshiaHemmat_CV.pdf" class="hover:text-blue-500">CV</a>
+          <a href="../index.html#contact" class="hover:text-blue-500">Contact</a>
+        </nav>
+        <button id="theme-toggle" class="p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a.75.75 0 01.75.75V4a.75.75 0 01-1.5 0V2.75A.75.75 0 0110 2zM4.721 4.218a.75.75 0 011.06 1.06l-1.06 1.06a.75.75 0 11-1.06-1.06l1.06-1.06zM2 10a.75.75 0 01.75-.75H4a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm8 8a.75.75 0 01-.75-.75V16a.75.75 0 011.5 0v1.25A.75.75 0 0110 18zm5.279-13.782a.75.75 0 010 1.06l-1.06 1.06a.75.75 0 01-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zM16 10a.75.75 0 01.75-.75H18a.75.75 0 010 1.5h-1.25A.75.75 0 0116 10zm-2.721 4.722a.75.75 0 011.06-1.06l1.06 1.06a.75.75 0 11-1.06 1.06l-1.06-1.06zm-8.558 0l-1.06 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 111.06 1.06zM14.99 10a4.99 4.99 0 11-9.98 0 4.99 4.99 0 019.98 0z" /></svg>
+          <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707 8.001 8.001 0 0017.293 13.293z" /></svg>
+        </button>
+      </div>
+    </header>
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="text-3xl sm:text-4xl font-extrabold mb-4">Context Awareness Gate for Retrieval‑Augmented Generation</h1>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">15th IKT 2024 – Accepted</p>
+      <img src="../images/context_gate.png" alt="Context Awareness Gate" class="w-full h-64 object-cover rounded-lg shadow mb-8" />
+      <article class="prose dark:prose-invert">
+        <p>
+          Retrieval‑augmented generation systems can suffer when irrelevant context is retrieved for an
+          input question. This paper proposes the <strong>Context Awareness Gate (CAG)</strong>, a neural
+          mechanism that decides whether a query requires external knowledge before generation.
+          Instead of always retrieving documents, the gate evaluates the semantic content of the
+          query: if sufficient knowledge is already encoded in the model, the system answers
+          directly; otherwise, it performs retrieval.
+        </p>
+        <p>
+          To efficiently select candidate contexts, the authors introduce a <strong>vector‑candidates</strong>
+          method, a statistical, large‑language‑model‑independent approach that ranks documents
+          without requiring heavy inference. Experiments demonstrate that this dynamic retrieval
+          decision improves both faithfulness and relevance by avoiding the incorporation of
+          distracting information. The work underscores the importance of smarter retrieval control
+          in RAG pipelines.
+        </p>
+      </article>
+      <div class="mt-8 flex flex-wrap gap-6">
+        <a href="https://arxiv.org/pdf/2411.16133" target="_blank" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Paper PDF</a>
+        <a href="../index.html#publications" class="px-4 py-2 border border-gray-400 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-800">Back to Publications</a>
+      </div>
+    </main>
+    <footer class="bg-gray-100 dark:bg-gray-900 py-6">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        &copy; 2025 Arshia Hemmat
+      </div>
+    </footer>
+    <script>
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+      function updateIcons() {
+        const isDark = document.documentElement.classList.contains('dark');
+        document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', !isDark);
+        document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', isDark);
+      }
+      document.addEventListener('DOMContentLoaded', updateIcons);
+      document.getElementById('theme-toggle').addEventListener('click', function () {
+        document.documentElement.classList.toggle('dark');
+        const isDark = document.documentElement.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateIcons();
+      });
+    </script>
+  </body>
+</html>

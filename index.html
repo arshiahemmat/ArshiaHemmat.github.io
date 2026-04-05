@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arshia Hemmat | AI for Biology · Cambridge PhD</title>
+    <meta name="description" content="Arshia Hemmat — Incoming PhD at University of Cambridge. Researcher in AI for Biology, Multimodal AI, and Trustworthy AI systems.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        bg:   '#050507',
+                        card: '#0d0d10',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ── Scrollbar ─────────────────────────────────────────── */
+        ::-webkit-scrollbar            { width: 6px; }
+        ::-webkit-scrollbar-track      { background: transparent; }
+        ::-webkit-scrollbar-thumb      { background: #2a2a35; border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover{ background: #3f3f55; }
+
+        /* ── Neural canvas ─────────────────────────────────────── */
+        #neural-canvas {
+            position: fixed; inset: 0;
+            z-index: 0; pointer-events: none;
+            opacity: .45;
+        }
+
+        /* ── Gradient orbs ─────────────────────────────────────── */
+        .orb {
+            position: fixed; border-radius: 50%;
+            filter: blur(90px); pointer-events: none; z-index: 0;
+        }
+        .orb-purple {
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(124,58,237,.18) 0%, transparent 70%);
+            bottom: -200px; left: -200px;
+            animation: drift-a 18s ease-in-out infinite alternate;
+        }
+        .orb-blue {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(59,130,246,.12) 0%, transparent 70%);
+            top: -100px; right: -100px;
+            animation: drift-b 22s ease-in-out infinite alternate;
+        }
+        .orb-emerald {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(16,185,129,.07) 0%, transparent 70%);
+            top: 40%; left: 55%;
+            animation: drift-c 28s ease-in-out infinite alternate;
+        }
+
+        @keyframes drift-a { to { transform: translate(35vw, -30vh) scale(1.3); } }
+        @keyframes drift-b { to { transform: translate(-20vw, 25vh) scale(1.2); } }
+        @keyframes drift-c { to { transform: translate(-15vw, -20vh) scale(.8); } }
+
+        /* ── Section reveal ────────────────────────────────────── */
+        .reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Profile ring animation ────────────────────────────── */
+        @keyframes spin-ring {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        .spin-ring { animation: spin-ring 8s linear infinite; }
+
+        /* ── Typewriter cursor ─────────────────────────────────── */
+        .typewriter-cursor::after {
+            content: '|';
+            animation: blink .8s step-end infinite;
+            color: #818cf8;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ── Stat card shimmer ─────────────────────────────────── */
+        @keyframes shimmer {
+            0%   { background-position: -200% center; }
+            100% { background-position:  200% center; }
+        }
+        .shimmer-text {
+            background: linear-gradient(90deg, #a78bfa 0%, #60a5fa 40%, #34d399 60%, #a78bfa 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+
+        /* ── Publication card hover ────────────────────────────── */
+        .pub-card {
+            transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+        }
+        .pub-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(139,92,246,.4) !important;
+            box-shadow: 0 8px 40px rgba(139,92,246,.12);
+        }
+
+        /* ── Filter tabs ───────────────────────────────────────── */
+        .filter-btn {
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: rgba(139,92,246,.15);
+            border-color: rgba(139,92,246,.5);
+            color: #c4b5fd;
+        }
+
+        /* ── Scholar badge pulse ───────────────────────────────── */
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .3; }
+        }
+        .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+        /* ── Milestone badge ───────────────────────────────────── */
+        .badge-milestone { background: rgba(251,191,36,.1); color: #fbbf24; border-color: rgba(251,191,36,.3); }
+        .badge-paper     { background: rgba(99,102,241,.1);  color: #818cf8; border-color: rgba(99,102,241,.3);  }
+
+        /* ── News dots ─────────────────────────────────────────── */
+        .news-dot-milestone { background: #fbbf24; box-shadow: 0 0 8px rgba(251,191,36,.6); }
+        .news-dot-paper     { background: #6366f1; }
+        .news-dot-default   { background: #2e364f; }
+
+        /* ── Focus area cards ──────────────────────────────────── */
+        .focus-card {
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .focus-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* ── Counter number ────────────────────────────────────── */
+        .counter-val { font-variant-numeric: tabular-nums; }
+
+        /* ── Unverified dimmed ─────────────────────────────────── */
+        .stats-unverified { opacity: .45; }
+    </style>
+</head>
+
+<body class="bg-bg text-gray-300 min-h-screen font-sans overflow-x-hidden">
+
+    <!-- Background layers -->
+    <canvas id="neural-canvas"></canvas>
+    <div class="orb orb-purple"></div>
+    <div class="orb orb-blue"></div>
+    <div class="orb orb-emerald"></div>
+
+    <!-- ═══════════════════ MAIN WRAPPER ═══════════════════ -->
+    <main class="relative z-10 max-w-5xl mx-auto px-5 md:px-10 py-10 md:py-16 flex flex-col gap-20">
+
+        <!-- ╔══════════════════ HERO ══════════════════╗ -->
+        <section class="flex flex-col-reverse md:flex-row items-center md:items-start justify-between gap-12 mt-4">
+
+            <!-- Left: text -->
+            <div class="flex-1 space-y-6 text-center md:text-left">
+
+                <!-- Badges row -->
+                <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c1428] border border-[#3b2d6b] text-violet-400 text-xs font-bold tracking-wide">
+                        <span class="w-1.5 h-1.5 bg-violet-400 rounded-full pulse-dot"></span>
+                        Incoming PhD · Cambridge
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0d1a2b] border border-[#1e3a5f] text-blue-400 text-xs font-bold tracking-wide">
+                        MSc · Oxford
+                    </span>
+                </div>
+
+                <!-- Name -->
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-none">
+                    <span class="text-white">Arshia</span><br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 via-blue-500 to-emerald-400">Hemmat</span>
+                </h1>
+
+                <!-- Typewriter bio -->
+                <p id="profile-bio" class="text-gray-400 leading-relaxed text-base md:text-lg max-w-xl typewriter-cursor"></p>
+
+                <!-- Action buttons -->
+                <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                    <a id="link-cv" href="" class="bg-white text-black px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-violet-100 transition flex items-center gap-2 shadow-lg">
+                        Download CV
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </a>
+                    <a href="mailto:amirarshia.hemmat@kellogg.ox.ac.uk" class="px-5 py-2.5 rounded-lg font-bold text-sm border border-white/10 bg-white/5 hover:bg-white/10 transition text-white">
+                        Contact Me
+                    </a>
+                </div>
+
+                <!-- Social icons -->
+                <div class="flex gap-4 justify-center md:justify-start text-gray-500">
+                    <a id="link-github" href="" target="_blank" title="GitHub" class="hover:text-white transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.05-.015-2.055-3.33.72-4.035-1.605-4.035-1.605-.54-1.38-1.335-1.755-1.335-1.755-1.087-.735.09-.72.09-.72 1.2.09 1.83 1.23 1.83 1.23 1.065 1.815 2.805 1.29 3.495.99.105-.765.42-1.29.765-1.59-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.285 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </a>
+                    <a id="link-scholar" href="" target="_blank" title="Google Scholar" class="hover:text-white transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+                    </a>
+                    <a id="link-linkedin" href="" target="_blank" title="LinkedIn" class="hover:text-white transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: profile photo -->
+            <div class="shrink-0 relative">
+                <!-- Rotating gradient ring -->
+                <div class="spin-ring absolute -inset-[3px] rounded-[2.2rem]"
+                     style="background: conic-gradient(from 0deg, #7c3aed, #3b82f6, #10b981, #7c3aed); border-radius: 2.2rem; padding: 2px;">
+                </div>
+                <div class="absolute -inset-[3px] rounded-[2.2rem]" style="background: conic-gradient(from 0deg, #7c3aed44, #3b82f644, #10b98144, #7c3aed44); filter:blur(12px);"></div>
+                <img id="profile-image" src="images/profile.jpg" alt="Arshia Hemmat"
+                     class="relative w-60 h-60 md:w-72 md:h-72 object-cover rounded-[2rem] border-2 border-bg shadow-2xl bg-card">
+            </div>
+        </section>
+
+        <!-- ╔══════════════ SCHOLAR STATS ══════════════╗ -->
+        <section class="reveal">
+            <div id="stats-bar" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- filled by JS -->
+            </div>
+            <!-- Scholar sync info -->
+            <div id="scholar-status" class="mt-3 text-center text-xs text-gray-600 flex items-center justify-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+                <span id="scholar-status-text">Loading Scholar data…</span>
+            </div>
+        </section>
+
+        <!-- ╔═══════════════ RESEARCH FOCUS ════════════╗ -->
+        <section class="reveal">
+            <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-5">Research Focus</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="focus-card bg-card rounded-2xl border border-white/5 p-6 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none"></div>
+                    <div class="text-2xl mb-3">🧬</div>
+                    <h3 class="text-white font-bold mb-1">AI for Biology</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">Generative & spatial genomics models — imputing gene expression from histology, bridging molecular biology and deep learning.</p>
+                </div>
+                <div class="focus-card bg-card rounded-2xl border border-white/5 p-6 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none"></div>
+                    <div class="text-2xl mb-3">👁️</div>
+                    <h3 class="text-white font-bold mb-1">Multimodal AI</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">Vision-language models, benchmarking VLM perception, robustness, and compositional reasoning across modalities.</p>
+                </div>
+                <div class="focus-card bg-card rounded-2xl border border-white/5 p-6 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-transparent pointer-events-none"></div>
+                    <div class="text-2xl mb-3">🛡️</div>
+                    <h3 class="text-white font-bold mb-1">Trustworthy AI</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">Privacy-preserving retrieval, uncertainty calibration, and safety for AI systems deployed in high-stakes domains.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ╔════════════════ LATEST UPDATES ═══════════╗ -->
+        <section class="reveal">
+            <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-5 flex items-center gap-2">
+                <svg class="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                Latest Updates
+            </h2>
+            <div class="bg-card rounded-2xl border border-white/5 p-6 md:p-8 shadow-xl">
+                <div id="news-container" class="space-y-7 border-l border-white/8 ml-1.5 pl-7 relative max-h-[420px] overflow-y-auto pr-2">
+                </div>
+            </div>
+        </section>
+
+        <!-- ╔══════════════ PUBLICATIONS ════════════════╗ -->
+        <section class="reveal">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest">Publications</h2>
+                <a href="publications.html" class="text-xs text-gray-600 hover:text-white transition">View all →</a>
+            </div>
+
+            <!-- Filter tabs -->
+            <div id="filter-tabs" class="flex flex-wrap gap-2 mb-6">
+                <button class="filter-btn active px-3 py-1 rounded-full text-xs font-bold border border-white/10 text-gray-400 bg-white/5" data-filter="all">All</button>
+                <button class="filter-btn px-3 py-1 rounded-full text-xs font-bold border border-white/10 text-gray-400 bg-white/5" data-filter="ai-for-biology">🧬 AI for Biology</button>
+                <button class="filter-btn px-3 py-1 rounded-full text-xs font-bold border border-white/10 text-gray-400 bg-white/5" data-filter="vision-language">👁️ Vision-Language</button>
+                <button class="filter-btn px-3 py-1 rounded-full text-xs font-bold border border-white/10 text-gray-400 bg-white/5" data-filter="rag-nlp">💬 RAG & NLP</button>
+                <button class="filter-btn px-3 py-1 rounded-full text-xs font-bold border border-white/10 text-gray-400 bg-white/5" data-filter="benchmarks">📊 Benchmarks</button>
+                <button class="filter-btn px-3 py-1 rounded-full text-xs font-bold border border-white/10 text-gray-400 bg-white/5" data-filter="trustworthy-ai">🛡️ Trustworthy AI</button>
+            </div>
+
+            <div id="papers-container" class="grid gap-3">
+            </div>
+        </section>
+
+        <!-- ╔══════════════ CTA BOXES ════════════════════╗ -->
+        <section class="reveal grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <div class="bg-card rounded-2xl border border-emerald-500/15 p-7 relative overflow-hidden hover:border-emerald-500/30 transition-colors duration-300">
+                <div class="absolute top-0 right-0 w-28 h-28 bg-emerald-500/8 rounded-full blur-2xl -mr-6 -mt-6 pointer-events-none"></div>
+                <h3 id="mentor-title" class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full" style="animation: pulse-dot 2s ease-in-out infinite;"></span>
+                </h3>
+                <p id="mentor-text" class="text-sm text-gray-400 leading-relaxed mb-5"></p>
+                <a id="email-mentor" href="" class="text-emerald-400 text-sm font-bold hover:text-emerald-300 transition inline-flex items-center gap-1.5">
+                    Reach out
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+            </div>
+
+            <div class="bg-card rounded-2xl border border-blue-500/15 p-7 relative overflow-hidden flex flex-col justify-between hover:border-blue-500/30 transition-colors duration-300">
+                <div class="absolute top-0 right-0 w-28 h-28 bg-blue-500/8 rounded-full blur-2xl -mr-6 -mt-6 pointer-events-none"></div>
+                <div>
+                    <h3 id="collab-title" class="text-base font-bold text-white mb-2"></h3>
+                    <p id="collab-text" class="text-sm text-gray-400 leading-relaxed mb-5"></p>
+                </div>
+                <a id="email-collab" href="" class="bg-white text-black py-2.5 px-5 rounded-lg text-sm font-bold text-center hover:bg-violet-50 transition self-start">
+                    Contact Me
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ════════════ FOOTER ════════════ -->
+    <footer class="relative z-10 text-center text-gray-700 text-xs py-8 border-t border-white/4 mt-4">
+        © <span id="year"></span> Arshia Hemmat ·
+        <a id="footer-scholar-link" href="" target="_blank" class="hover:text-gray-500 transition">Google Scholar</a>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!--                   SCRIPTS                      -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <script src="content.js"></script>
+
+    <script>
+    // ────────────────────────────────────────────────
+    // 1. NEURAL NETWORK CANVAS BACKGROUND
+    // ────────────────────────────────────────────────
+    (function() {
+        const canvas = document.getElementById('neural-canvas');
+        const ctx    = canvas.getContext('2d');
+        let W, H, particles = [];
+        const N     = 70;
+        const DIST  = 160;
+        const COLORS = ['rgba(124,58,237,', 'rgba(59,130,246,', 'rgba(16,185,129,'];
+
+        function resize() {
+            W = canvas.width  = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+
+        function init() {
+            resize();
+            particles = [];
+            for (let i = 0; i < N; i++) {
+                particles.push({
+                    x:  Math.random() * W,
+                    y:  Math.random() * H,
+                    vx: (Math.random() - .5) * .25,
+                    vy: (Math.random() - .5) * .25,
+                    r:  Math.random() * 1.5 + .8,
+                    alpha: Math.random() * .4 + .15,
+                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+
+            // connections
+            for (let i = 0; i < N; i++) {
+                for (let j = i + 1; j < N; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const d  = Math.sqrt(dx*dx + dy*dy);
+                    if (d < DIST) {
+                        const a = (1 - d / DIST) * .12;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(139,92,246,${a})`;
+                        ctx.lineWidth = .6;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // nodes
+            for (const p of particles) {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0 || p.x > W) p.vx *= -1;
+                if (p.y < 0 || p.y > H) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + p.alpha + ')';
+                ctx.fill();
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', () => { resize(); init(); });
+        init(); draw();
+    })();
+
+
+    // ────────────────────────────────────────────────
+    // 2. TYPEWRITER EFFECT
+    // ────────────────────────────────────────────────
+    function typewrite(el, html, speed) {
+        // Strip HTML for typing, then reveal tags instantly
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        const text = temp.textContent;
+
+        let i = 0;
+        el.innerHTML = '';
+        el.classList.add('typewriter-cursor');
+
+        const interval = setInterval(() => {
+            if (i < text.length) {
+                i++;
+                // Rebuild HTML incrementally using the full html as template
+                el.innerHTML = buildPartialHtml(html, i);
+            } else {
+                clearInterval(interval);
+                el.classList.remove('typewriter-cursor');
+            }
+        }, speed);
+    }
+
+    function buildPartialHtml(fullHtml, charCount) {
+        // Simple approach: count visible characters, preserve tags
+        const temp = document.createElement('div');
+        temp.innerHTML = fullHtml;
+        let count = 0;
+
+        function processNode(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const remaining = charCount - count;
+                if (remaining <= 0) return document.createTextNode('');
+                const sliced = node.textContent.slice(0, remaining);
+                count += sliced.length;
+                return document.createTextNode(sliced);
+            }
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                const clone = node.cloneNode(false);
+                for (const child of node.childNodes) {
+                    if (count >= charCount) break;
+                    clone.appendChild(processNode(child));
+                }
+                return clone;
+            }
+            return node.cloneNode(true);
+        }
+
+        const result = document.createElement('div');
+        for (const child of temp.childNodes) {
+            if (count >= charCount) break;
+            result.appendChild(processNode(child));
+        }
+        return result.innerHTML;
+    }
+
+
+    // ────────────────────────────────────────────────
+    // 3. COUNT-UP ANIMATION
+    // ────────────────────────────────────────────────
+    function countUp(el, target, duration) {
+        if (target === 0) { el.textContent = '—'; return; }
+        const start = performance.now();
+        function frame(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased    = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+            el.textContent = Math.round(eased * target).toLocaleString();
+            if (progress < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+    }
+
+
+    // ────────────────────────────────────────────────
+    // 4. SCROLL REVEAL
+    // ────────────────────────────────────────────────
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                revealObserver.unobserve(e.target);
+            }
+        });
+    }, { threshold: .1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
+    // ────────────────────────────────────────────────
+    // 5. RENDER PROFILE
+    // ────────────────────────────────────────────────
+    document.getElementById('link-cv').href        = profileData.cvLink;
+    document.getElementById('link-github').href    = profileData.githubLink;
+    document.getElementById('link-scholar').href   = profileData.scholarLink;
+    document.getElementById('link-linkedin').href  = profileData.linkedinLink;
+    document.getElementById('footer-scholar-link').href = profileData.scholarLink;
+    document.getElementById('year').textContent    = new Date().getFullYear();
+
+    // Typewriter starts after a short delay
+    setTimeout(() => {
+        typewrite(document.getElementById('profile-bio'), profileData.bio, 18);
+    }, 400);
+
+
+    // ────────────────────────────────────────────────
+    // 6. SCHOLAR STATS (loads scholar_data.json)
+    // ────────────────────────────────────────────────
+    const STAT_DEFS = [
+        { key: 'citations',  label: 'Citations',   icon: '📚' },
+        { key: 'hindex',     label: 'h-index',     icon: '📈' },
+        { key: 'i10index',   label: 'i10-index',   icon: '🔟' },
+        { key: '_papers',    label: 'Papers',       icon: '📝' },
+    ];
+
+    function renderStats(data) {
+        const bar     = document.getElementById('stats-bar');
+        const total   = data.citations;
+        const h       = data.hindex;
+        const i10     = data.i10index;
+        const papers  = allPublications.length;
+        const vals    = [total, h, i10, papers];
+        const verified = data.verified === true;
+
+        bar.innerHTML = '';
+        STAT_DEFS.forEach((def, idx) => {
+            const div = document.createElement('div');
+            div.className = `bg-card border border-white/5 rounded-xl p-5 text-center focus-card ${verified ? '' : 'stats-unverified'}`;
+            div.innerHTML = `
+                <div class="text-xl mb-1">${def.icon}</div>
+                <div class="counter-val text-2xl font-extrabold shimmer-text" id="stat-val-${idx}">—</div>
+                <div class="text-xs text-gray-600 mt-1 font-medium">${def.label}</div>
+            `;
+            bar.appendChild(div);
+
+            // animate after slight stagger
+            setTimeout(() => {
+                countUp(document.getElementById(`stat-val-${idx}`), vals[idx], 1200);
+            }, idx * 120);
+        });
+
+        // Status line
+        const statusEl = document.getElementById('scholar-status-text');
+        if (verified) {
+            const d    = new Date(data.last_updated);
+            const ago  = Math.round((Date.now() - d) / (1000 * 60 * 60 * 24));
+            statusEl.textContent = `Synced from Google Scholar ${ago === 0 ? 'today' : ago + 'd ago'} · Run scholar_sync.py to refresh`;
+        } else {
+            statusEl.textContent = `Stats not synced yet · run: python3 scholar_sync.py`;
+        }
+    }
+
+    fetch('scholar_data.json')
+        .then(r => r.json())
+        .then(data => renderStats(data))
+        .catch(() => renderStats({ citations: 0, hindex: 0, i10index: 0, verified: false }));
+
+
+    // ────────────────────────────────────────────────
+    // 7. RENDER NEWS
+    // ────────────────────────────────────────────────
+    const BADGE_MAP = {
+        milestone: { cls: 'badge-milestone', dot: 'news-dot-milestone', label: 'Milestone' },
+        paper:     { cls: 'badge-paper',     dot: 'news-dot-paper',     label: 'Paper'     },
+    };
+
+    const newsContainer = document.getElementById('news-container');
+    newsData.forEach(item => {
+        const bm = BADGE_MAP[item.badge] || { cls: '', dot: 'news-dot-default', label: '' };
+        const badgeHtml = bm.label
+            ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold border ${bm.cls}">${bm.label}</span>`
+            : '';
+        const linkHtml = item.link
+            ? `<a href="${item.link}" target="_blank" class="text-blue-400 hover:text-blue-300 text-xs underline decoration-blue-400/30 ml-2">Read →</a>`
+            : '';
+
+        newsContainer.innerHTML += `
+            <div class="relative group">
+                <span class="absolute -left-[34px] top-1.5 w-3 h-3 rounded-full ${bm.dot} border-2 border-bg transition-all duration-200"></span>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                    <span class="text-xs font-bold text-gray-600 font-mono">${item.date}</span>
+                    ${badgeHtml}
+                </div>
+                <h3 class="text-white font-bold text-sm mb-0.5">${item.title}</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">${item.content}${linkHtml}</p>
+            </div>`;
+    });
+
+
+    // ────────────────────────────────────────────────
+    // 8. RENDER PUBLICATIONS WITH FILTER
+    // ────────────────────────────────────────────────
+    const BADGE_COLOR = {
+        blue:    'bg-blue-500/10 text-blue-400 border-blue-500/20',
+        emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+        purple:  'bg-purple-500/10 text-purple-400 border-purple-500/20',
+        gray:    'bg-white/5 text-gray-400 border-white/10',
+    };
+
+    let activeFilter = 'all';
+
+    function renderPapers(filter) {
+        const container = document.getElementById('papers-container');
+        const papers    = filter === 'all'
+            ? allPublications
+            : allPublications.filter(p => p.topics && p.topics.includes(filter));
+
+        container.innerHTML = '';
+        papers.forEach((paper, i) => {
+            const bc      = BADGE_COLOR[paper.badgeColor] || BADGE_COLOR.gray;
+            const linksHtml = paper.links.map(l =>
+                `<a href="${l.url}" target="_blank" class="text-xs font-medium text-white bg-white/8 px-3 py-1.5 rounded-lg hover:bg-white/15 transition border border-white/5">${l.text}</a>`
+            ).join('');
+
+            const topicsHtml = (paper.topics || []).map(t => {
+                const labels = { 'ai-for-biology':'🧬','vision-language':'👁️','rag-nlp':'💬','benchmarks':'📊','trustworthy-ai':'🛡️' };
+                return `<span class="text-[10px] text-gray-600">${labels[t]||''}</span>`;
+            }).join('');
+
+            const div = document.createElement('div');
+            div.className = 'pub-card bg-card rounded-xl p-5 border border-white/5 opacity-0 translate-y-2';
+            div.style.transition = `opacity .35s ease ${i * 50}ms, transform .35s ease ${i * 50}ms, border-color .25s ease, box-shadow .25s ease, transform .25s ease`;
+            div.innerHTML = `
+                <div class="flex flex-wrap gap-2 mb-3 items-center">
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wide border ${bc}">${paper.venue}</span>
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wide border bg-white/5 text-gray-500 border-white/8">${paper.role}</span>
+                    <span class="ml-auto flex gap-1">${topicsHtml}</span>
+                </div>
+                <h3 class="text-white font-bold text-base mb-1 leading-snug hover:text-violet-300 transition-colors">${paper.title}</h3>
+                <p class="text-xs text-gray-600 mb-2 font-mono">${paper.authors}</p>
+                <p class="text-sm text-gray-400 mb-4 leading-relaxed">${paper.description}</p>
+                ${linksHtml ? `<div class="flex gap-2 flex-wrap">${linksHtml}</div>` : ''}
+            `;
+            container.appendChild(div);
+
+            // trigger fade-in
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                div.style.opacity = '1';
+                div.style.transform = 'translateY(0)';
+            }));
+        });
+    }
+
+    // Filter button logic
+    document.getElementById('filter-tabs').addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+        renderPapers(activeFilter);
+    });
+
+    renderPapers('all');
+
+
+    // ────────────────────────────────────────────────
+    // 9. SUPPORT BOXES
+    // ────────────────────────────────────────────────
+    document.getElementById('mentor-title').innerHTML =
+        `<span class="w-2 h-2 bg-emerald-400 rounded-full pulse-dot"></span>${supportData.mentorshipTitle}`;
+    document.getElementById('mentor-text').textContent  = supportData.mentorshipText;
+    document.getElementById('email-mentor').href        = 'mailto:' + profileData.email;
+    document.getElementById('collab-title').textContent = supportData.collabTitle;
+    document.getElementById('collab-text').textContent  = supportData.collabText;
+    document.getElementById('email-collab').href        = 'mailto:' + profileData.email;
+
+    </script>
+</body>
+</html>

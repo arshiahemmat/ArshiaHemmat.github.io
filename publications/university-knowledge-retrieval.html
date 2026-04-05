@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retrieval‑Augmented Generation for Persian University Knowledge – Arshia Hemmat</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  </head>
+  <body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-200 font-sans">
+    <!-- Navigation bar -->
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        <a href="../index.html" class="text-2xl font-bold">Arshia Hemmat</a>
+        <nav class="hidden md:flex space-x-6 items-center">
+          <a href="../index.html#publications" class="hover:text-blue-500">Publications</a>
+          <a href="../cv/ArshiaHemmat_CV.pdf" class="hover:text-blue-500">CV</a>
+          <a href="../index.html#contact" class="hover:text-blue-500">Contact</a>
+        </nav>
+        <button id="theme-toggle" class="p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a.75.75 0 01.75.75V4a.75.75 0 01-1.5 0V2.75A.75.75 0 0110 2zM4.721 4.218a.75.75 0 011.06 1.06l-1.06 1.06a.75.75 0 11-1.06-1.06l1.06-1.06zM2 10a.75.75 0 01.75-.75H4a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm8 8a.75.75 0 01-.75-.75V16a.75.75 0 011.5 0v1.25A.75.75 0 0110 18zm5.279-13.782a.75.75 0 010 1.06l-1.06 1.06a.75.75 0 01-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zM16 10a.75.75 0 01.75-.75H18a.75.75 0 010 1.5h-1.25A.75.75 0 0116 10zm-2.721 4.722a.75.75 0 011.06-1.06l1.06 1.06a.75.75 0 11-1.06 1.06l-1.06-1.06zm-8.558 0l-1.06 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 111.06 1.06zM14.99 10a4.99 4.99 0 11-9.98 0 4.99 4.99 0 019.98 0z" /></svg>
+          <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707 8.001 8.001 0 0017.293 13.293z" /></svg>
+        </button>
+      </div>
+    </header>
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 class="text-3xl sm:text-4xl font-extrabold mb-4">Leveraging Retrieval‑Augmented Generation for Persian University Knowledge Retrieval</h1>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">15th IKT 2024 – Oral</p>
+      <img src="../images/university_rag.png" alt="University Knowledge Retrieval" class="w-full h-64 object-cover rounded-lg shadow mb-8" />
+      <article class="prose dark:prose-invert">
+        <p>
+          In this project we develop a <strong>two‑stage retrieval‑augmented generation pipeline</strong> to answer
+          questions about university resources using locally scraped documents. Queries are first
+          categorised to determine the most relevant subset of documents; a Persian large language
+          model then generates answers using a carefully engineered prompt. This approach combines the
+          power of large language models with explicit retrieval, ensuring that answers remain
+          faithful to the underlying knowledge base.
+        </p>
+        <p>
+          To evaluate our system, we introduce <strong>UniversityQuestionBench (UQB)</strong>, a benchmark derived
+          from frequently asked questions by students across disciplines. We measure performance using
+          faithfulness, answer relevance and context relevance metrics. Experiments demonstrate that
+          incorporating retrieval significantly improves the precision and contextual relevance of
+          generated answers compared with baselines that rely solely on generative models. Our work
+          highlights the value of domain‑specific RAG systems for institutional knowledge retrieval.
+        </p>
+      </article>
+      <div class="mt-8 flex flex-wrap gap-6">
+        <a href="https://ieeexplore.ieee.org/abstract/document/10892716" target="_blank" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Paper PDF</a>
+        <a href="../index.html#publications" class="px-4 py-2 border border-gray-400 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-800">Back to Publications</a>
+      </div>
+    </main>
+    <footer class="bg-gray-100 dark:bg-gray-900 py-6">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        &copy; 2025 Arshia Hemmat
+      </div>
+    </footer>
+    <script>
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+      function updateIcons() {
+        const isDark = document.documentElement.classList.contains('dark');
+        document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', !isDark);
+        document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', isDark);
+      }
+      document.addEventListener('DOMContentLoaded', updateIcons);
+      document.getElementById('theme-toggle').addEventListener('click', function () {
+        document.documentElement.classList.toggle('dark');
+        const isDark = document.documentElement.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateIcons();
+      });
+    </script>
+  </body>
+</html>

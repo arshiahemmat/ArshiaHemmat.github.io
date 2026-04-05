@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "org": "Torr Vision Group, University of Oxford",
+      "role": "Research Assistant",
+      "when": "2024 \u2014 present",
+      "details": "Vision & multimodal evaluation; privacy-aware pipelines; benchmarking."
+    },
+    {
+      "org": "Wellcome Sanger Institute (Cambridge)",
+      "role": "Research Collaborator",
+      "when": "2024 \u2014 present",
+      "details": "AI for Science \u2014 video reasoning, datasets, tooling."
+    }
+  ]
+}

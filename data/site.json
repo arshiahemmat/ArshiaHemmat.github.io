@@ -1,0 +1,25 @@
+{
+  "title": "Arshia Hemmat \u2014 Academic Portfolio",
+  "name": "Arshia Hemmat",
+  "role": "MSc Advanced Computer Science \u2014 University of Oxford",
+  "summary": "Researching trustworthy AI, computer vision, and AI for science. I design rigorous benchmarks and practical methods focused on reliability, privacy, and multimodal reasoning.",
+  "email": "you@example.com",
+  "cv": "#",
+  "location": "Oxford, United Kingdom",
+  "badges": [
+    "Trustworthy AI",
+    "Vision & Multimodal",
+    "AI for Science"
+  ],
+  "socials": {
+    "website": "https://arshiahemmat.github.io",
+    "github": "https://github.com/arshiahemmat",
+    "scholar": "https://scholar.google.com/citations?user=lASBGvMAAAAJ&hl=en",
+    "linkedin": "",
+    "twitter": ""
+  },
+  "about": [
+    "I am an MSc student in Advanced Computer Science at the University of Oxford. My work spans robust vision-language evaluation, privacy-aware RAG, and applied AI for science.",
+    "Previously, I collaborated with the Torr Vision Group and the Sanger Institute. I enjoy building clean, reproducible codebases and community resources."
+  ]
+}

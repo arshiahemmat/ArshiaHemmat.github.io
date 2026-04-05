@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "title": "IllusionBench",
+      "summary": "A vision-language benchmark for abstract shape recognition and illusions (NeurIPS 2024).",
+      "tags": [
+        "benchmark",
+        "vision-language",
+        "evaluation"
+      ],
+      "link": "#",
+      "code": "#"
+    },
+    {
+      "title": "Privacy Gate for RAG",
+      "summary": "Local Differential Privacy layer (\u03b5\u2011controlled) to sanitize text before retrieval & generation (AACL 2025).",
+      "tags": [
+        "privacy",
+        "RAG",
+        "NLP"
+      ],
+      "link": "#",
+      "code": "#"
+    },
+    {
+      "title": "AI for Science Tools",
+      "summary": "Tooling and datasets for physics/video reasoning and multimodal understanding.",
+      "tags": [
+        "science",
+        "video",
+        "tooling"
+      ],
+      "link": "#",
+      "code": "#"
+    }
+  ]
+}

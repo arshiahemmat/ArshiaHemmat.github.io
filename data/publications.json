@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "authors": "A. Hemmat, P. Torr, A. Khakzar, F. Pinto, et al.",
+      "title": "IllusionBench: Evaluating Abstract Shape Recognition in Vision-Language Models",
+      "venue": "NeurIPS 2024",
+      "link": "#",
+      "notes": ""
+    },
+    {
+      "authors": "A. Hemmat, et al.",
+      "title": "Privacy Gate for RAG with Local Differential Privacy",
+      "venue": "AACL 2025",
+      "link": "#",
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+
+/* ===== ArshiaHemmat.github.io — Visual Polish & Animations ===== */
+:root {
+  --bg-1: 228 100% 97%;
+  --bg-2: 252 100% 97%;
+  --ink: 223 15% 14%;
+  --muted: 223 10% 36%;
+  --brand: 262 85% 57%;
+  --brand-2: 195 90% 48%;
+  --card: 0 0% 100% / .65;
+  --shadow: 220 40% 2% / .08;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  color: hsl(var(--ink));
+  background: radial-gradient(1200px 800px at 10% -10%, hsl(var(--bg-1)), transparent 60%),
+              radial-gradient(1400px 900px at 110% 10%, hsl(var(--bg-2)), transparent 60%),
+              linear-gradient(180deg, white, white);
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Subtle animated gradient aura */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10% -10% auto -10%;
+  height: 40vh;
+  background: radial-gradient(50% 60% at 20% 40%, hsla(262,85%,57%,.20) 0, transparent 60%),
+              radial-gradient(60% 50% at 70% 50%, hsla(195,90%,48%,.18) 0, transparent 60%);
+  filter: blur(40px) saturate(120%);
+  z-index: -1;
+  animation: float-aura 18s ease-in-out infinite;
+}
+@keyframes float-aura {
+  0%,100% { transform: translateY(0) scale(1); opacity: .8; }
+  50%     { transform: translateY(12px) scale(1.02); opacity: 1; }
+}
+
+/* Glass cards + lift on hover */
+.glass, .page__content .notice, .archive__item, .page__content .feature__item {
+  background: hsl(var(--card));
+  backdrop-filter: blur(8px);
+  border: 1px solid hsl(var(--ink) / .07);
+  box-shadow: 0 10px 30px hsl(var(--shadow));
+  border-radius: 16px;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px hsl(var(--shadow));
+  border-color: hsl(var(--brand) / .25);
+}
+
+/* Animated underline for links */
+a, .page__content a {
+  text-underline-offset: 3px;
+  text-decoration-thickness: .06em;
+}
+a.underline-slide, .page__content a {
+  position: relative;
+  text-decoration: none;
+}
+a.underline-slide::after, .page__content a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, hsl(var(--brand)), hsl(var(--brand-2)));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+a.underline-slide:hover::after, .page__content a:hover::after { transform: scaleX(1); }
+
+/* Gradient brand text utility */
+.gradient-text {
+  background: linear-gradient(90deg, hsl(var(--brand)), hsl(var(--brand-2)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Section reveal animations (IntersectionObserver adds .is-visible) */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(14px) scale(.99);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2,.9,.2,1);
+  will-change: opacity, transform;
+}
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+/* Slight staggering via data-animate-order */
+[data-animate][data-animate-order="2"] { transition-delay: .06s; }
+[data-animate][data-animate-order="3"] { transition-delay: .12s; }
+[data-animate][data-animate-order="4"] { transition-delay: .18s; }
+[data-animate][data-animate-order="5"] { transition-delay: .24s; }
+
+/* Buttons */
+.btn, .btn--primary, .btn--inverse {
+  border-radius: 999px;
+  padding: .6rem 1rem;
+  border: 1px solid hsl(var(--brand) / .3);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  background: linear-gradient(90deg, hsl(var(--brand) / .9), hsl(var(--brand-2) / .9));
+  color: white !important;
+}
+.btn:hover, .btn--primary:hover, .btn--inverse:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px hsl(var(--brand) / .25);
+}
+
+/* Hero tweaks */
+.page__hero, .page__hero--overlay {
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px hsl(var(--shadow));
+}
+.page__title {
+  letter-spacing: .2px;
+}
+.page__title .highlight { padding: .1em .25em; border-radius: .4em; background: hsl(var(--brand) / .1); }
+
+/* Cards grid nicer spacing */
+.archive .grid__wrapper, .feature__wrapper { gap: 1.1rem; }
+
+/* Reduced-motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  [data-animate] { opacity: 1 !important; transform: none !important; }
+}

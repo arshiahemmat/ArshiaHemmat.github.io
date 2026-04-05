@@ -1,0 +1,70 @@
+/*
+ * Custom overrides and components for Arshia Hemmat’s portfolio site.
+ *
+ * This file contains additional styles that build on top of the Minimal Mistakes
+ * framework to deliver a fresh, modern look.  It defines a full‑width hero
+ * banner used on the home page and tweaks typography and spacing for
+ * improved readability.
+ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  text-align: center;
+  padding: 6rem 1rem;
+  margin-bottom: 3rem;
+  border-radius: $border-radius;
+}
+
+// Dark overlay to improve text legibility on the hero image
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: inherit;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: $primary-color;
+  border-radius: $border-radius;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: darken($primary-color, 10%);
+  color: #fff;
+}

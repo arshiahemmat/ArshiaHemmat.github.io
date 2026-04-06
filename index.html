@@ -264,16 +264,16 @@
 
     .news-date {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12.5px;
-      color: var(--dim);
-      padding-top: 2px;
+      font-size: 13px;
+      color: #555;
+      padding-top: 3px;
       white-space: nowrap;
     }
 
     .news-text {
-      font-size: 15.5px;
-      color: #b8b8b8;
-      line-height: 1.65;
+      font-size: 16px;
+      color: #c8c8c8;
+      line-height: 1.7;
     }
 
     .news-row.highlight .news-text { color: var(--text); }
@@ -281,9 +281,9 @@
     .news-text strong { color: var(--text); font-weight: 600; }
 
     .news-text a {
-      font-size: 11.5px;
-      color: var(--dim);
-      margin-left: 9px;
+      font-size: 12px;
+      color: #555;
+      margin-left: 10px;
       transition: color .15s;
       font-family: 'JetBrains Mono', monospace;
       letter-spacing: .03em;
@@ -346,7 +346,7 @@
 
     .pub-venue {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 500;
       letter-spacing: .08em;
       text-transform: uppercase;
@@ -356,7 +356,7 @@
     .pub-role {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: var(--dim);
+      color: #666;
       background: var(--bg2);
       border: 1px solid var(--border);
       padding: 2px 8px;
@@ -365,25 +365,31 @@
     }
 
     .pub-title {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 600;
       color: var(--text);
       line-height: 1.4;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       letter-spacing: -.015em;
     }
 
     .pub-authors {
-      font-size: 13px;
-      color: var(--dim);
-      margin-bottom: 9px;
+      font-size: 13.5px;
+      color: #666;
+      margin-bottom: 10px;
       font-family: 'JetBrains Mono', monospace;
       letter-spacing: .01em;
+      line-height: 1.6;
+    }
+
+    .pub-authors .me {
+      color: var(--accent);
+      font-weight: 500;
     }
 
     .pub-desc {
-      font-size: 14.5px;
-      color: var(--muted);
+      font-size: 15px;
+      color: #909090;
       line-height: 1.75;
       margin-bottom: 14px;
     }
@@ -724,6 +730,13 @@ newsData.forEach(item => {
 
 
 /* ── PUBLICATIONS ─────────────────────────────────── */
+function highlightMe(authors) {
+  return authors
+    .replace(/Arshia Hemmat/g, '<span class="me">Arshia Hemmat</span>')
+    .replace(/A\. Hemmat/g,    '<span class="me">A. Hemmat</span>')
+    .replace(/A Hemmat/g,      '<span class="me">A Hemmat</span>');
+}
+
 function renderPubs(filter) {
   const list   = document.getElementById('pub-list');
   const papers = filter === 'selected' ? selectedPapers : allPublications;
@@ -742,7 +755,7 @@ function renderPubs(filter) {
         <span class="pub-role">${p.role}</span>
       </div>
       <p class="pub-title">${p.title}</p>
-      <p class="pub-authors">${p.authors}</p>
+      <p class="pub-authors">${highlightMe(p.authors)}</p>
       <p class="pub-desc">${p.description}</p>
       ${links ? `<div class="pub-links">${links}</div>` : ''}
     `;

@@ -3,7 +3,7 @@ const profileData = {
     lastName: "Hemmat",
     title: "Incoming PhD · University of Cambridge",
     subtitle: "MSc Advanced Computer Science · University of Oxford",
-    bio: "I work on AI for Biology — building generative and multimodal models that reason about biological data. Previously at the Torr Vision Group (Oxford) and Wellcome Sanger Institute.",
+    bio: "Working at the intersection of AI and Biology, building generative and multimodal models for biological data, with a focus on safety for agentic LLMs. Currently an MSc student at Oxford, working at the Torr Vision Group and Wellcome Sanger Institute. Also a marathon runner, because apparently one form of long-distance endurance is never enough.",
     image: "images/profile.jpg",
     cvLink: "cv/ArshiaHemmat_CV.pdf",
     scholarLink: "https://scholar.google.com/citations?hl=en&user=lASBGvMAAAAJ",

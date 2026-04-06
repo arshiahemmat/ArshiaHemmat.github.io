@@ -17,6 +17,24 @@ const newsData = [
         date: "Apr 2026",
         title: "PhD offer — University of Cambridge",
         content: "Accepted a PhD position at the University of Cambridge to work on AI for Biology.",
+        badge: "milestone",
+    },
+    {
+        date: "Mar 2026",
+        title: "New paper",
+        content: "\"Unmasking the Factual-Conceptual Gap in Persian Language Models\" accepted at the First Workshop on NLP and LLMs for the Iranian Language Family.",
+    },
+    {
+        date: "Feb 2026",
+        title: "New preprint",
+        content: "\"TDGNet: Hallucination Detection in Diffusion Language Models via Temporal Dynamic Graphs\" is on arXiv.",
+        link: "https://arxiv.org/abs/2602.08048"
+    },
+    {
+        date: "Jan 2026",
+        title: "EACL 2026",
+        content: "\"MEENA (PersianMMMU)\" accepted as a Findings paper at EACL 2026.",
+        link: "https://arxiv.org/abs/2508.17290"
     },
     {
         date: "Nov 2025",
@@ -94,12 +112,28 @@ const selectedPapers = [
 const allPublications = [
     ...selectedPapers,
     {
-        title: "MEENA (PersianMMMU): Multimodal-Multilingual Educational Exams",
-        venue: "Under Review · EACL 2026",
-        authors: "Omid Ghahroodi, Arshia Hemmat, et al.",
+        title: "MEENA (PersianMMMU): Multimodal-Multilingual Educational Exams for N-Level Assessment",
+        venue: "Findings of ACL: EACL 2026",
+        authors: "Omid Ghahroodi, Arshia Hemmat, ..., Mohammad Hossein Rohban, Ehsaneddin Asgari, Mahdieh Soleymani Baghshah",
         role: "Co-Author",
-        description: "First large-scale Persian VLM benchmark with 7.5k Persian + 3k English multimodal questions.",
+        description: "First large-scale Persian VLM benchmark with 7.5k Persian + 3k English multimodal questions spanning scientific reasoning and student performance metadata.",
         links: [{ text: "Paper", url: "https://arxiv.org/abs/2508.17290" }],
+    },
+    {
+        title: "Unmasking the Factual-Conceptual Gap in Persian Language Models",
+        venue: "NLP4ILF Workshop 2026",
+        authors: "Alireza Sakhaeirad, Ali Ma'manpoosh, Arshia Hemmat",
+        role: "Co-Author",
+        description: "Investigates the gap between factual recall and conceptual understanding in Persian large language models.",
+        links: [],
+    },
+    {
+        title: "TDGNet: Hallucination Detection in Diffusion Language Models via Temporal Dynamic Graphs",
+        venue: "arXiv 2026",
+        authors: "Arshia Hemmat, Philip Torr, Yonglong Chen, Jiawei Yu",
+        role: "First Author",
+        description: "A graph-based framework for detecting hallucinations in diffusion language models by modeling token-level temporal dynamics.",
+        links: [{ text: "Paper", url: "https://arxiv.org/abs/2602.08048" }],
     },
     {
         title: "RAG-Driven Video QA with Adaptive Chunking",

@@ -214,12 +214,12 @@
     .section + .section { margin-top: 0; }
 
     .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10.5px;
-      font-weight: 500;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--dim);
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      text-transform: none;
+      color: var(--text);
       margin-bottom: 28px;
     }
 
@@ -362,6 +362,12 @@
       padding: 2px 8px;
       border-radius: 3px;
       letter-spacing: .04em;
+    }
+
+    .pub-role-lead {
+      color: var(--accent);
+      border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
     }
 
     .pub-title {
@@ -752,7 +758,7 @@ function renderPubs(filter) {
     div.innerHTML   = `
       <div class="pub-meta">
         <span class="pub-venue">${p.venue}</span>
-        <span class="pub-role">${p.role}</span>
+        <span class="pub-role ${p.role.toLowerCase().includes('first author') ? 'pub-role-lead' : ''}">${p.role}</span>
       </div>
       <p class="pub-title">${p.title}</p>
       <p class="pub-authors">${highlightMe(p.authors)}</p>
